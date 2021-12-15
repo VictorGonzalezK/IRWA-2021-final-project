@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {# Using Bootstrap v4.6.1 #}
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/custom.css') }}">
+    <title>Document Detail - IRWA Search Engine</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class='header text-center'>
+            <a href="/">
+                <img src="{{ url_for('static', filename='logo.png') }}" width="100"/>
+            </a>
+            <span> IRWA Search Engine </span>
+        </div>
+        <hr>
+        
+    <h1>Detailed Tweet: </h1>
+    <center><blockquote class="twitter-tweet" tw-align-center data-lang="en"><p lang="en" dir="ltr">{{ tweet.full_text }}</p>&mdash; {{ tweet.user }} <a href="{{ tweet.og_url }}">{{ tweet.date }}</a></blockquote>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
+    <div><a href="#" onclick="history.go(-1)">Go Back</a></div>
+    <div><a href="{{stats}}">Stats</a></div>
+  </body>
+</html>

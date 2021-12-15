@@ -1,0 +1,178 @@
+{% extends "base.html" %} {% block page_title %}{{ page_title }}{% endblock %}
+{% block header %}
+{% endblock %} {% block content %}
+
+<!--
+    Examples of what to show in Dashboard:
+
+    - Ranking of visited documents (from results page)
+    - Visitor's preferred browsers
+    - Visitor's city (from IP)
+    - preferred queries ranking
+    - preferred terms
+    - etc.
+
+    -->
+
+<h5>Visits by Tweet</h5>
+<canvas id="TweetVisits" width="400" height="400"></canvas>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js"
+  integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script>
+  // Set the data
+  const visitsLabels = {{clicked_t_ids}};
+  const visitsData = {{clicked_t_counts}};
+
+  //Setup
+  const data = {
+    labels: visitsLabels,
+    datasets: [{
+        label: 'Visits Count',
+        data: visitsData,
+        fill: false,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgb(54, 162, 235)',
+        borderWidth: 1
+      }]
+  };
+
+//Config
+const config = {
+    type: 'bar',
+    data: data,
+    options: {indexAxis: 'y'}
+  };
+
+  // Render
+  const ctx = document.getElementById('TweetVisits').getContext('2d');
+  const TweetVisits = new Chart(ctx, config );
+
+</script>
+
+<div><br> </br></div>
+<hr></hr>
+<div><br> </br></div>
+<h5>Query Sizes</h5>
+<canvas id="qSize" width="400" height="400"></canvas>
+
+<script>
+function dynamicColors() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+}
+function poolColors(a) {
+    var pool = [];
+    for(i = 0; i < a; i++) {
+        pool.push(dynamicColors());
+    }
+    return pool;
+}
+
+
+// Set the data
+  const qnames = {{n_q}};
+  const qcounter = {{countq}};
+  
+
+  //Setup
+  const data2 = {
+    labels: qnames,
+    datasets: [{
+        label: 'Query Sizes',
+        data: qcounter,
+        fill: false,
+        backgroundColor: poolColors(qnames.length),
+        hoverOffset: 4
+      }]
+  };
+
+//Config
+const config2 = {
+    type: 'doughnut',
+    data: data2,
+  };
+
+  // Render
+  const qSize = new Chart(document.getElementById('qSize').getContext('2d'), config2 );
+   
+    
+</script>
+<div><br> </br></div>
+<hr></hr>
+<div><br> </br></div>
+<h5>Prefered Browsers</h5>
+<canvas id="PrefBrow" width="400" height="400"></canvas>
+
+<script>
+// Set the data
+  const bnames = {{b_q | tojson}};
+  const bcounter = {{countb}};
+
+  //Setup
+  const data3 = {
+    labels: bnames,
+    datasets: [{
+        label: 'Browser Preferences',
+        data: bcounter,
+        fill: false,
+        backgroundColor: poolColors(bnames.length),
+        hoverOffset: 4
+      }]
+  };
+
+//Config
+const config3 = {
+    type: 'doughnut',
+    data: data3,
+  };
+
+  // Render
+  const PrefBrow = new Chart(document.getElementById('PrefBrow').getContext('2d'), config3 );
+   
+    
+</script>
+
+<div><br> </br></div>
+<hr></hr>
+<div><br> </br></div>
+<h5>Most Popular Hashtags on Clicked</h5>
+<canvas id="Hashtagging" width="400" height="400"></canvas>
+
+<script>
+// Set the data
+  const hnames = {{n_h | tojson}};
+  const hcounter = {{counth}};
+
+  //Setup
+  const data4 = {
+    labels: hnames,
+    datasets: [{
+        label: 'Hashtag Frequency',
+        data: hcounter,
+        fill: false,
+        backgroundColor: poolColors(hnames.length),
+        hoverOffset: 4
+      }]
+  };
+
+//Config
+const config4 = {
+    type: 'bar',
+    data: data4,
+    options: {indexAxis: 'y'}
+  };
+
+  // Render
+  const Hashtagging = new Chart(document.getElementById('Hashtagging').getContext('2d'), config4 );
+   
+    
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block content %}
+    Quick sample...
+    <hr>
+    <div class="num_clicks">
+        Number of times clicked this Tweet: {{ n_clicks }}
+    </div>
+
+    {% for click in clicks_data %}
+        <div class="pb-3">
+            <div class="">
+            </div>
+            <div class="">
+                {{ click.qname }} — {{ click.qlang }}
+            </div>
+
+        </div>
+
+    {% endfor %}
+{% endblock %}
+
+
+</body>
+</html>
